@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+        <textarea id="mapForm" rows="10" cols="50"></textarea>
+        <input type="button" onclick="submit()" value="Solve">
+    </div>
+    <br />
+    <div>
+        Results: <span id="steps"></span> Steps
+        <br />
+        <textarea id="results" rows="10" cols="50"></textarea>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function submit() {
+
+        var textArea = $("#mapForm").val();
+        var formData = JSON.stringify(textArea);
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/api/Test/solveMaze",
+            data: formData,
+            success: function (response) {
+                $("#results").val(response.Data.Solution);
+                $("#steps").html(response.Data.Steps)
+            },
+            contentType: "application/json"
+        });
+    }
+</script>
